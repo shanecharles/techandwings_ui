@@ -95,15 +95,32 @@ view model =
 loadingSpinner = i [ class "fa fa-cog fa-3x fa-spin center"
                    , attribute "aria-hidden" "true" ] []
 
+formatDateString : Date -> String
+formatDateString d =
+  (d |> dayOfWeek |> toString) ++ ", " ++
+  (d |> month |> toString) ++ " " ++ 
+  (d |> day |> toString) ++ ", " ++ 
+  (d |> year |> toString)
+
+
+dateToHtml : Date -> Html Msg
+dateToHtml d =
+  h2 [] [text (d |> formatDateString)]
+
 viewNextMeetup : Resource (Maybe Meetup) -> Html Msg
 viewNextMeetup model =
   case model of
     Loading           -> div [] [loadingSpinner]
     Loaded (Nothing)  -> div [] [text "There is no meetup scheduled yet. Check again later."]
-    Loaded (Just (m)) -> div [] [ h1 [] [text (m.date |> toString)]
-                     , h2 [] [text m.location]
-                     ]
-    Error msg         -> div [] [ h1 [] [text (String.append ":(" (msg |> toString))]]
+    Loaded (Just (m)) -> div [] 
+                          [ div [class "c50"] []
+                          , div [class "c50"] 
+                            [ h2 [] [ div [class "label"] [text "When"]
+                                    , span [] [text (formatDateString m.date)] ]
+                            , h2 [] [ div [class "label"] [text "Where"]
+                                    , span [] [text m.location] ]
+                          ]]
+    Error msg         -> div [] [ h1 [] [text (String.append ":( " (msg |> toString))]]
 
 viewPreviousMeetup : Resource (Maybe Meetup) -> Html Msg
 viewPreviousMeetup model =

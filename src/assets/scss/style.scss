@@ -60,6 +60,21 @@ h2 {
     text-align: center;
     padding: 20px 10px;
   }
+  h2 {
+    background-color: white;
+    color: black;
+    text-align: left;
+  }
+  div.label {
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 6px;
+    width: 60px;
+    text-align: right;
+  }
+  div.label::after {
+    content: ":";
+  }
 }
 
 .previous-meetup {
