@@ -74,7 +74,7 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model = 
-  div [] [ div [ class "header" ] 
+  div [class "main"] [ div [ class "header" ] 
             [ h1 [] [text "Tech and Wings"]
             , h2 [] [text "A group of developers, IT specialiasts, and enthusiasts gathering together to talk all kinds of tech related topics." ]
             ]
@@ -88,7 +88,7 @@ view model =
                 ]
          , div [class "future-meetups"]
                 [ h2 [] [text "Future Meetups"]
-                , div [class "container"] [text "future meetups"]
+                , div [class "container"] [viewFutureMeetups model.future]
                 ]
          ]
 
@@ -119,13 +119,25 @@ viewNextMeetup model =
                           [ div [class "c50"] []
                           , div [class "c50"] 
                             [ h2 [] [ div [class "label"] [text "When"]
-                                    , span [] [text (formatDateString m.date)] ]
+                                    , div [class "data"] [text (formatDateString m.date)] ]
                             , h2 [] [ div [class "label"] [text "Time"]
-                                    , span [] [text (formatTimeString m.date)] ]
+                                    , div [class "data"] [text (formatTimeString m.date)] ]
                             , h2 [] [ div [class "label"] [text "Where"]
-                                    , span [] [text m.location] ]
+                                    , div [class "data"] [text m.location] ]
                           ]]
     Error msg         -> div [] [ h1 [] [text (String.append ":( " (msg |> toString))]]
+
+viewFutureMeetups: Resource (Maybe (List Meetup)) -> Html Msg
+viewFutureMeetups model =
+  case model of
+    Loading             -> div [] [loadingSpinner]
+    Loaded (Nothing)    -> div [] [text "No meetups planned at the moment... check back later."]
+    Loaded (Just (mts)) -> div [] (List.map (\ m -> div [class "line"] 
+                                                  [ div [class "label"] [text "When"]
+                                                  , span [] [text (m.date |> formatDateString)]
+                                                  ]) mts)
+    Error msg           -> div [] [ text "uh oh... someone talk with the dev!"]
+
 
 viewPreviousMeetup : Resource (Maybe Meetup) -> Html Msg
 viewPreviousMeetup model =

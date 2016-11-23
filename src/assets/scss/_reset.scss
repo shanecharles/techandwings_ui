@@ -4,3 +4,8 @@ h1, h2, h3, p, body, div {
   font-size: 100%;
   vertical-align: baseline;
 }
+
+div {
+  overflow: hidden;
+  vertical-align: top;
+}
