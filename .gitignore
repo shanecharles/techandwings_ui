@@ -1,3 +1,4 @@
 elm-stuff/
 serve/
 node_modules/
+*.swp

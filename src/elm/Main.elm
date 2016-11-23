@@ -102,6 +102,9 @@ formatDateString d =
   (d |> day |> toString) ++ ", " ++ 
   (d |> year |> toString)
 
+formatTimeString : Date -> String
+formatTimeString d =
+  (d |> hour |> toString) ++ ":" ++ (d |> minute |> toString |> String.padLeft 2 '0')
 
 dateToHtml : Date -> Html Msg
 dateToHtml d =
@@ -117,6 +120,8 @@ viewNextMeetup model =
                           , div [class "c50"] 
                             [ h2 [] [ div [class "label"] [text "When"]
                                     , span [] [text (formatDateString m.date)] ]
+                            , h2 [] [ div [class "label"] [text "Time"]
+                                    , span [] [text (formatTimeString m.date)] ]
                             , h2 [] [ div [class "label"] [text "Where"]
                                     , span [] [text m.location] ]
                           ]]
@@ -127,7 +132,13 @@ viewPreviousMeetup model =
   case model of
     Loading           -> div [] [loadingSpinner]
     Loaded (Nothing)  -> div [] [text "Was there really a previous meeting?"]
-    Loaded (Just (m)) -> div [] [ h2 [] [text (m.date |> toString)] ]
+    Loaded (Just (m)) -> div [] [ div [class "line"] [ div [class "label"] [text "When"]
+                                        , span [] [text (m.date |> formatDateString)]] 
+                                , div [class "line"] [ div [class "label"] [text "Where"]
+                                         , div [class "data"] [text m.location]
+                                , div [class "line"] [ div [class "label"] [text "Topics"]
+                                                     , div [class "data"] [text m.topics]]]
+                                ]    
     Error msg         -> div [] [ text "uh oh... someone talk with the dev!"]
 
 
