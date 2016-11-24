@@ -138,6 +138,11 @@ viewFutureMeetups model =
                                                   ]) mts)
     Error msg           -> div [] [ text "uh oh... someone talk with the dev!"]
 
+formatPeople : Maybe Int -> String 
+formatPeople people =
+  case people of 
+    Just (p) -> p |> toString
+    Nothing  -> "¯\\_(ツ)_/¯"
 
 viewPreviousMeetup : Resource (Maybe Meetup) -> Html Msg
 viewPreviousMeetup model =
@@ -148,9 +153,10 @@ viewPreviousMeetup model =
                                         , span [] [text (m.date |> formatDateString)]] 
                                 , div [class "line"] [ div [class "label"] [text "Where"]
                                          , div [class "data"] [text m.location]
+                                , div [class "line"] [ div [class "label"] [text "People"]
+                                                     , div [class "data"] [text (m.people |> formatPeople)]]]
                                 , div [class "line"] [ div [class "label"] [text "Topics"]
-                                                     , div [class "data"] [text m.topics]]]
-                                ]    
+                                                     , div [class "data"] [text m.topics]]]    
     Error msg         -> div [] [ text "uh oh... someone talk with the dev!"]
 
 
