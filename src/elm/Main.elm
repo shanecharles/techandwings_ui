@@ -105,10 +105,6 @@ formatTimeString : Date -> String
 formatTimeString d =
   (d |> hour |> toString) ++ ":" ++ (d |> minute |> toString |> String.padLeft 2 '0')
 
---dateToHtml : Date -> Html Msg
---dateToHtml d =
---  h2 [] [text (d |> formatDateString)]
-
 dataLine : String -> String -> Html Msg
 dataLine label data =
   div [class "line"] [ div [class "label"] [text label]
