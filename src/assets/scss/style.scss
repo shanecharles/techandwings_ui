@@ -55,6 +55,10 @@ h2 {
   display: inline-block;
   width: 80%;
 }
+div.line {
+    margin: 5px 0;
+  }
+
 div.label {
     display: inline-block;
     font-weight: bold;
@@ -71,20 +75,17 @@ div.label {
   h1 {
     background-color: $header-bg-color;
     color: $header-color;
-    font-size: 130%;
+    font-size: $h1-font-size;
     text-align: center;
     padding: 20px 10px;
   }
-  h2 {
+  div.line {
     background-color: white;
     color: black;
     text-align: left;
+    font-size: $h2-font-size;
   }
 }
-
-div.line {
-    margin: 5px 0;
-  }
 
 .previous-meetup {
   }
@@ -93,6 +94,21 @@ div.line {
 }
 
 @media only screen and (min-width: $screen-sm) {
+  .next-meetup {
+    div.logo {
+      background-image: url('/assets/images/logo.png');
+      width: 150px;
+      height: 150px;
+      display: inline-block;
+    }
+    div.next-details {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 20px;
+      width: 60%;
+    }
+  }
+
   .previous-meetup {
     width: 48%;
     margin: 1%;

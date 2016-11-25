@@ -1,6 +1,5 @@
 module Main exposing (..)
 
-import String as String exposing (append)
 import Date exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -75,7 +74,7 @@ subscriptions model =
 view : Model -> Html Msg
 view model = 
   div [class "main"] [ div [ class "header" ] 
-            [ h1 [] [text "Tech and Wings"]
+            [ h1 [] [text "Tech & Wings"]
             , h2 [] [text "A group of developers, IT specialiasts, and enthusiasts gathering together to talk all kinds of tech related topics." ]
             ]
          , div [class "next-meetup"]
@@ -106,9 +105,14 @@ formatTimeString : Date -> String
 formatTimeString d =
   (d |> hour |> toString) ++ ":" ++ (d |> minute |> toString |> String.padLeft 2 '0')
 
-dateToHtml : Date -> Html Msg
-dateToHtml d =
-  h2 [] [text (d |> formatDateString)]
+--dateToHtml : Date -> Html Msg
+--dateToHtml d =
+--  h2 [] [text (d |> formatDateString)]
+
+dataLine : String -> String -> Html Msg
+dataLine label data =
+  div [class "line"] [ div [class "label"] [text label]
+                     , div [class "data"] [text data]]
 
 viewNextMeetup : Resource (Maybe Meetup) -> Html Msg
 viewNextMeetup model =
@@ -116,27 +120,21 @@ viewNextMeetup model =
     Loading           -> div [] [loadingSpinner]
     Loaded (Nothing)  -> div [] [text "There is no meetup scheduled yet. Check again later."]
     Loaded (Just (m)) -> div [] 
-                          [ div [class "c50"] []
-                          , div [class "c50"] 
-                            [ h2 [] [ div [class "label"] [text "When"]
-                                    , div [class "data"] [text (formatDateString m.date)] ]
-                            , h2 [] [ div [class "label"] [text "Time"]
-                                    , div [class "data"] [text (formatTimeString m.date)] ]
-                            , h2 [] [ div [class "label"] [text "Where"]
-                                    , div [class "data"] [text m.location] ]
+                          [ div [class "logo"] []
+                          , div [class "next-details"] 
+                            [ dataLine "When" (formatDateString m.date)
+                            , dataLine "Time" (formatTimeString m.date)
+                            , dataLine "Where" m.location
                           ]]
-    Error msg         -> div [] [ h1 [] [text (String.append ":( " (msg |> toString))]]
+    Error msg         -> div [] [ h1 [] [text (":( " ++ (msg |> toString))]]
 
 viewFutureMeetups: Resource (Maybe (List Meetup)) -> Html Msg
 viewFutureMeetups model =
   case model of
     Loading             -> div [] [loadingSpinner]
     Loaded (Nothing)    -> div [] [text "No meetups planned at the moment... check back later."]
-    Loaded (Just (mts)) -> div [] (List.map (\ m -> div [class "line"] 
-                                                  [ div [class "label"] [text "When"]
-                                                  , span [] [text (m.date |> formatDateString)]
-                                                  ]) mts)
-    Error msg           -> div [] [ text "uh oh... someone talk with the dev!"]
+    Loaded (Just (mts)) -> div [] (mts |> List.map (\ m -> dataLine "When" (m.date |> formatDateString)))
+    Error msg           -> div [] [text "uh oh... someone talk with the dev!"]
 
 formatPeople : Maybe Int -> String 
 formatPeople people =
@@ -149,16 +147,12 @@ viewPreviousMeetup model =
   case model of
     Loading           -> div [] [loadingSpinner]
     Loaded (Nothing)  -> div [] [text "Was there really a previous meeting?"]
-    Loaded (Just (m)) -> div [] [ div [class "line"] [ div [class "label"] [text "When"]
-                                        , span [] [text (m.date |> formatDateString)]] 
-                                , div [class "line"] [ div [class "label"] [text "Where"]
-                                         , div [class "data"] [text m.location]
-                                , div [class "line"] [ div [class "label"] [text "People"]
-                                                     , div [class "data"] [text (m.people |> formatPeople)]]]
-                                , div [class "line"] [ div [class "label"] [text "Topics"]
-                                                     , div [class "data"] [text m.topics]]]    
+    Loaded (Just (m)) -> div [] [ dataLine "When" (m.date |> formatDateString) 
+                                , dataLine "Where" m.location
+                                , dataLine "People" (m.people |> formatPeople)
+                                , dataLine "Topics" m.topics
+                                ]    
     Error msg         -> div [] [ text "uh oh... someone talk with the dev!"]
-
 
 --dataUrl = "http://localhost:4000/meetups"
 dataUrl = "https://techandwingsapi.azurewebsites.net/api/meetups"
