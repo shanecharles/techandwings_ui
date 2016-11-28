@@ -62,15 +62,12 @@ h2 {
   background-color: $html-background-color;
   padding: $pad-md $pad-sm;
   p {
-    display: inline-block;
-    width: 50%;
+    display: block;
     background-color: inherit;
+    text-align: center;
     a {
       text-decoration: none;
     }
-  }
-  p:nth-child(even) {
-    text-align: right;
   }
 }
 
@@ -121,6 +118,17 @@ div.label {
 }
 
 @media only screen and (min-width: $screen-sm) {
+ .footer {
+   p {
+      display: inline-block;
+      width: 50%;
+      text-align: left;
+    }
+    p:nth-child(even) {
+      text-align: right;
+    } 
+  }
+
   .next-meetup {
     div.logo {
       background-image: url('/assets/images/logo.png');
