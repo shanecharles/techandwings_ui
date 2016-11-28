@@ -89,7 +89,18 @@ view model =
                 [ h2 [] [text "Future Meetups"]
                 , div [class "container"] [viewFutureMeetups model.future]
                 ]
+         , viewFooter 
          ]
+
+viewFooter : Html Msg
+viewFooter = 
+  div [class "footer"] 
+       [ p [] [ text "Created in "
+               , a [href "http://elm-lang.org"] [ text "Elm"]]
+       , p [] [ text "Source code found on "
+              , a [href "https://github.com/shanecharles/techandwings_ui.git"] [text "GitHub"]]
+       ]
+
 
 loadingSpinner = i [ class "fa fa-cog fa-3x fa-spin center"
                    , attribute "aria-hidden" "true" ] []

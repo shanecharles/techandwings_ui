@@ -6,6 +6,12 @@ $primary-bg-color: #226666;
 $h1-font-size: 140%;
 $h2-font-size: 115%;
 
+$pad-lg: 20px;
+$pad-md: 10px;
+$pad-sm: 5px;
+
+$html-background-color: #ddd;
+
 $screen-sm: 648px;
 $screen-md: 800px;
 
@@ -18,8 +24,13 @@ $screen-md: 800px;
   box-sizing: border-box;
 }
 
+html {
+  background-color: $html-background-color;
+}
+
 body {
   width: 100%;
+  background-color: white;
 }
 
 h2 {
@@ -44,6 +55,22 @@ h2 {
     display: inline-block;
     background-color: $header-color;
     color: $header-bg-color;
+  }
+}
+
+.footer {
+  background-color: $html-background-color;
+  padding: $pad-md $pad-sm;
+  p {
+    display: inline-block;
+    width: 50%;
+    background-color: inherit;
+    a {
+      text-decoration: none;
+    }
+  }
+  p:nth-child(even) {
+    text-align: right;
   }
 }
 
