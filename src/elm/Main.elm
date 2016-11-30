@@ -8,6 +8,7 @@ import Json.Decode as Json exposing (..)
 import Json.Decode.Extra exposing (..)
 import Task exposing (Task)
 import Http exposing (..)
+import Date.Format exposing (format)
 
 type alias Meetup = 
   { date     : Date
@@ -101,20 +102,14 @@ viewFooter =
               , a [href "https://github.com/shanecharles/techandwings_ui.git"] [text "GitHub"]]
        ]
 
-
 loadingSpinner = i [ class "fa fa-cog fa-3x fa-spin center"
                    , attribute "aria-hidden" "true" ] []
 
 formatDateString : Date -> String
-formatDateString d =
-  (d |> dayOfWeek |> toString) ++ ", " ++
-  (d |> month |> toString) ++ " " ++ 
-  (d |> day |> toString) ++ ", " ++ 
-  (d |> year |> toString)
+formatDateString = format "%A, %B %e, %Y"
 
 formatTimeString : Date -> String
-formatTimeString d =
-  (d |> hour |> toString) ++ ":" ++ (d |> minute |> toString |> String.padLeft 2 '0')
+formatTimeString = format "%l:%M %p"
 
 dataLine : String -> String -> Html Msg
 dataLine label data =
