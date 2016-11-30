@@ -96,7 +96,7 @@ view model =
 viewFooter : Html Msg
 viewFooter = 
   div [class "footer"] 
-       [ p [] [ text "Created in "
+       [ p [] [ text "Created with "
                , a [href "http://elm-lang.org"] [ text "Elm"]]
        , p [] [ text "Source code found on "
               , a [href "https://github.com/shanecharles/techandwings_ui.git"] [text "GitHub"]]
