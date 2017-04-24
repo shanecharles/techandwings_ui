@@ -122,7 +122,6 @@ gulp.task("cname", function () {
 
 // Optimizes all the CSS, HTML and concats the JS etc
 gulp.task("minify", ["styles"], function () {
-  var assets = $.useref.assets({searchPath: "serve"});
 
   return gulp.src("serve/**/*.*")
     // Concatenate JavaScript files and preserve important comments
@@ -130,8 +129,8 @@ gulp.task("minify", ["styles"], function () {
     // Minify CSS
     .pipe($.if("*.css", $.cleanCss()))
     // Start cache busting the files
-    .pipe($.revAll({ ignore: ["index.html", ".eot", ".svg", ".ttf", ".woff"] }))
-    .pipe(assets.restore())
+    .pipe($.revAll.revision({ ignore: ["index.html", ".eot", ".svg", ".ttf", ".woff"] }))
+    .pipe($.useref())
     // Replace the asset names with their cache busted names
     .pipe($.revReplace())
     // Minify HTML
