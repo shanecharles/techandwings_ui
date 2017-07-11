@@ -7,7 +7,8 @@
   "description": "Website for displaying Tech & Wings meetups in Brandon, MB, Canada.",
   "dependencies": {
     "del": "^2.2.0",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-shell": "^0.6.3"
   },
   "devDependencies": {
     "browser-sync": "^1.5.7",
