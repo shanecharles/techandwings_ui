@@ -158,8 +158,8 @@ viewPreviousMeetup model =
                                 ]    
     Error msg         -> div [] [ text "uh oh... someone talk with the dev!"]
 
-dataUrl = "http://localhost:8083/meetups"
---dataUrl = "https://techandwingsfunctions.azurewebsites.net/api/meetups"
+--dataUrl = "http://localhost:8083/meetups"
+dataUrl = "https://techandwingsfunctions.azurewebsites.net/api/meetups"
 
 meetupDecoder : Decoder Meetup
 meetupDecoder = Json.map4 Meetup
