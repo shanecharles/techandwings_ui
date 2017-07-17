@@ -132,9 +132,11 @@ viewNextMeetup model =
 
 viewFutureMeetups: Resource (Maybe (List Meetup)) -> Html Msg
 viewFutureMeetups model =
+  let noMeetupsMsg = "No meetups planned at the moment... check back later." in
   case model of
     Loading             -> div [] [loadingSpinner]
-    Loaded (Nothing)    -> div [] [text "No meetups planned at the moment... check back later."]
+    Loaded (Nothing)    -> div [] [text noMeetupsMsg]
+    Loaded (Just ([]))  -> div [] [text noMeetupsMsg]
     Loaded (Just (mts)) -> div [] (mts |> List.map (\ m -> dataLine "When" (m.date |> formatDateString)))
     Error msg           -> div [] [text "uh oh... someone talk with the dev!"]
 
@@ -156,8 +158,8 @@ viewPreviousMeetup model =
                                 ]    
     Error msg         -> div [] [ text "uh oh... someone talk with the dev!"]
 
---dataUrl = "http://localhost:4000/meetups"
-dataUrl = "https://techandwingsfunctions.azurewebsites.net/api/meetups"
+dataUrl = "http://localhost:8083/meetups"
+--dataUrl = "https://techandwingsfunctions.azurewebsites.net/api/meetups"
 
 meetupDecoder : Decoder Meetup
 meetupDecoder = Json.map4 Meetup
