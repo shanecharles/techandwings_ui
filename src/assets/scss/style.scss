@@ -41,6 +41,15 @@ h2 {
   padding: 10px 5px;
 }
 
+.flex-container {
+  display: flex;
+  align-items: stretch;
+}
+
+.flex-fill {
+  flex: auto;
+}
+
 .header {
   padding: 0 10px;
   h1 {

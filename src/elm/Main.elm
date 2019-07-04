@@ -75,7 +75,9 @@ subscriptions model =
 view : Model -> Html Msg
 view model = 
   div [class "main"] [ div [ class "header" ] 
-            [ h1 [] [text "Tech & Wings"]
+            [ div [ class "flex-container" ] [ div [ class "flex-fill" ] [ h1 [] [text "Tech & Wings"] ]
+                                                  , div [] [ a [href "slack.htm"] [ i [class "fa fa-1x fa-slack"] []
+                                                                                  , text "join us on slack"  ] ]]
             , h2 [] [text "A group of developers, IT specialiasts, and enthusiasts gathering together to talk all kinds of tech related topics." ]
             ]
          , div [class "next-meetup"]
@@ -159,7 +161,8 @@ viewPreviousMeetup model =
     Error msg         -> div [] [ text "uh oh... someone talk with the dev!"]
 
 --dataUrl = "http://localhost:8083/meetups"
-dataUrl = "https://techandwingsfunctions.azurewebsites.net/api/meetups"
+--dataUrl = "https://techandwingsfunctions.azurewebsites.net/api/meetups"
+dataUrl = "https://techandwings.ca/data/meetups.min.json"
 
 meetupDecoder : Decoder Meetup
 meetupDecoder = Json.map4 Meetup
