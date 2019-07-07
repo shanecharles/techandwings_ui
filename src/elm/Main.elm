@@ -29,6 +29,10 @@ type alias Model =
   , meetups  : Maybe (List Meetup)
   }
 
+slackLink : List (Html Msg) -> Html Msg
+slackLink content =
+  a [ href "slack.htm" ] content
+
 init : ( Model, Cmd Msg )
 init = 
   ({ next     = Loading
@@ -76,8 +80,8 @@ view : Model -> Html Msg
 view model = 
   div [class "main"] [ div [ class "header" ] 
             [ div [ class "flex-container" ] [ div [ class "flex-fill" ] [ h1 [] [text "Tech & Wings"] ]
-                                                  , div [] [ a [href "slack.htm"] [ i [class "fa fa-1x fa-slack"] []
-                                                                                  , text "join us on slack"  ] ]]
+                                                  , div [] [ slackLink [ i [class "fa fa-1x fa-slack"] []
+                                                                       , text "join us on slack"  ]]]
             , h2 [] [text "A group of developers, IT specialiasts, and enthusiasts gathering together to talk all kinds of tech related topics." ]
             ]
          , div [class "next-meetup"]
@@ -122,7 +126,11 @@ viewNextMeetup : Resource (Maybe Meetup) -> Html Msg
 viewNextMeetup model =
   case model of
     Loading           -> div [] [loadingSpinner]
-    Loaded (Nothing)  -> div [] [text "There is no meetup scheduled yet. Check again later."]
+    Loaded (Nothing)  -> div [ class "container" ] 
+                                [ text "We meet once a month and vote on the date in Slack."
+                                , br [] []
+                                , slackLink [ text "Help us choose the meetup dates by joining us on Slack" ]
+                                ]
     Loaded (Just (m)) -> div [] 
                           [ div [class "logo"] []
                           , div [class "next-details"] 
@@ -134,11 +142,14 @@ viewNextMeetup model =
 
 viewFutureMeetups: Resource (Maybe (List Meetup)) -> Html Msg
 viewFutureMeetups model =
-  let noMeetupsMsg = "No meetups planned at the moment... check back later." in
+  let noMeetupsMsg = p [] [ text "Meetups are planned in the Tech & Wings Slack channel."
+                          , br [] [] 
+                          , slackLink [text "Join us to be part of the discussion." ]
+                          ] in
   case model of
     Loading             -> div [] [loadingSpinner]
-    Loaded (Nothing)    -> div [] [text noMeetupsMsg]
-    Loaded (Just ([]))  -> div [] [text noMeetupsMsg]
+    Loaded (Nothing)    -> div [] [noMeetupsMsg]
+    Loaded (Just ([]))  -> div [] [noMeetupsMsg]
     Loaded (Just (mts)) -> div [] (mts |> List.map (\ m -> dataLine "When" (m.date |> formatDateString)))
     Error msg           -> div [] [text "uh oh... someone talk with the dev!"]
 
